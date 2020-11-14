@@ -1,13 +1,16 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/gorilla/mux"
 	controller "github.com/harshitsinghai/felix/controllers"
 	database "github.com/harshitsinghai/felix/database"
+	"github.com/joho/godotenv"
 	"github.com/rs/cors"
 )
 
@@ -17,6 +20,14 @@ func HelloInit(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+
+	if err := godotenv.Load(); err != nil {
+		log.Fatal(err)
+	}
+
+	PORT := os.Getenv("PORT")
+
+	fmt.Println(PORT)
 	db, err := database.InitDB()
 	if err != nil {
 		panic(err)
@@ -39,12 +50,12 @@ func main() {
 
 	srv := &http.Server{
 		Handler: corsHandler,
-		Addr:    "localhost:8000",
+		Addr:    "0.0.0.0:" + PORT,
 
 		// Good practice: enforce timeouts for servers you create!
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
-	log.Println("Listening to server 8000")
+	log.Println("Listening to server" + PORT)
 	log.Fatal(srv.ListenAndServe())
 }
