@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"log"
 	"net/http"
 	"time"
@@ -28,7 +27,7 @@ func main() {
 		panic(err)
 	}
 
-	defer db.Close(context.Background())
+	defer db.Close()
 
 	r := mux.NewRouter()
 
