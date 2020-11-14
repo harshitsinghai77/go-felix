@@ -1,0 +1,3 @@
+sudo docker run --name postgres -e POSTGRES_PASSWORD=admin -e POSTGRES_USER=admin -p 5432:5432 -d c96f8b6bc0d9
+
+sudo docker exec -it 22bf54f2f99b psql -U admin
