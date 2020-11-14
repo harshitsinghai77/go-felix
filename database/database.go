@@ -26,14 +26,9 @@ func InitDB() (*sql.DB, error) {
 
 	var err error
 
-	host := os.Getenv("PG_HOST")
-	port := os.Getenv("PG_PORT")
-	user := os.Getenv("PG_USER")
-	password := os.Getenv("PG_PASSWORD")
-	dbname := os.Getenv("PG_DATABASE")
+	databaseURI := os.Getenv("DATABASE_URL")
 
-	DatabaseURI := "postgres://" + user + ":" + password + "@" + host + ":" + port + "/" + dbname
-	DB, DBerr = sql.Open("postgres", DatabaseURI)
+	DB, DBerr = sql.Open("postgres", databaseURI)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
 		os.Exit(1)

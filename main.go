@@ -48,6 +48,7 @@ func main() {
 
 	corsHandler := cors.AllowAll().Handler(r)
 
+	fmt.Println("BEFORE ERROR MAYBE============================================")
 	srv := &http.Server{
 		Handler: corsHandler,
 		Addr:    "0.0.0.0:" + PORT,
@@ -56,6 +57,7 @@ func main() {
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
+	fmt.Println("CAN YOU SEE THIS============================================")
 	log.Println("Listening to server" + PORT)
 	log.Fatal(srv.ListenAndServe())
 }
