@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/jackc/pgx"
+	"github.com/jackc/pgx/v4"
 	"github.com/joho/godotenv"
 )
 
