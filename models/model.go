@@ -8,13 +8,15 @@ type Record struct {
 	OriginalURL   string    `json:"originalUrl" db:"original_url"`
 	ShortURL      string    `json:"shortUrl" db:"short_url"`
 	CreatedAt     time.Time `json:"createdAt" db:"created_at"`
-	ExpiresAt     time.Time `json:"expiresAfter" db:"expires_at"`
+	ExpiresAt     time.Time `json:"expiresAt" db:"expires_at"`
 	HasExpired    bool      `json:"hasExpired" db:"has_expired"`
 	AlreadyExists bool      `json:"alreadyExists"`
 }
 
 // GenerateRequest is the expected POST json request from the user
 type GenerateRequest struct {
-	OriginalURL  string `json:"originalUrl"`
-	ExpiresAfter string `json:"expiresAfter"`
+	OriginalURL    string `json:"original_url"`
+	ExpiresAfter   string `json:"expires_after"`
+	ExpiryDateType string `json:"expiry_date_type"`
+	Expiry         bool   `json:"expiry"`
 }

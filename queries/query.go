@@ -1,67 +1,53 @@
 package queries
 
 import (
+	"fmt"
+	"time"
+
 	db "github.com/harshitsinghai/felix/database"
 	"github.com/harshitsinghai/felix/models"
 )
 
 // InsertURL into the database
 func InsertURL(url *models.Record) (int, error) {
-
 	var id int
 	query := "INSERT INTO web_url(original_url, short_url, created_at, expires_at, has_expired) VALUES ($1, $2, $3, $4, $5) RETURNING id"
 	insertError := db.DB.QueryRow(query, url.OriginalURL, url.ShortURL, url.CreatedAt, url.ExpiresAt, url.HasExpired).Scan(&id)
 	return id, insertError
-
 }
 
 // FetchOriginalURL fetches the original URL from the given shortURL
-func FetchOriginalURL(shortURL string) (bool, string, error) {
+func FetchOriginalURL(shortURL string) (bool, string) {
+	var originalURL string
+	var expireDate time.Time
 
-	query := `SELECT original_url FROM web_url WHERE short_url = '` + shortURL + `' LIMIT 1;`
-	rows, queryError := db.DB.Query(query)
-
-	if queryError != nil {
-		return false, "", queryError
+	err := db.DB.QueryRow("SELECT original_url, expires_at FROM web_url WHERE short_url = $1", shortURL).Scan(&originalURL, &expireDate)
+	if err != nil {
+		return false, "no rows found"
 	}
-	defer rows.Close()
 
-	for rows.Next() {
-		originalURL := ""
-		err := rows.Scan(&originalURL)
+	loc, err := time.LoadLocation("Asia/Kolkata")
 
-		if err != nil {
-			return false, "", err
-		}
-		return true, originalURL, nil
+	nowTime := time.Now().In(loc)
 
-	}
-	return false, "No Url Found", nil
+	fmt.Println("Database Timestamp", expireDate)
+	fmt.Println("time.Now()", nowTime)
 
+	hasExpired := expireDate.After(nowTime)
+	has2Expired := nowTime.After(expireDate)
+	fmt.Println("LINK has expired ", hasExpired, has2Expired)
+
+	return true, originalURL
 }
 
-// FetchShortURLExists check if the given string already exists in the database
-func FetchShortURLExists(shortURL string) (bool, string, error) {
-	query := `SELECT original_url FROM web_url WHERE short_url = '` + shortURL + `' LIMIT 1;`
+// FetchAlreadyExists Check if timestamp already exists
+func FetchAlreadyExists(shortURL string) (bool, string) {
+	var originalURL string
+	var expireDate time.Time
 
-	rows, queryError := db.DB.Query(query)
-
-	if queryError != nil {
-		return false, "", queryError
+	err := db.DB.QueryRow("SELECT original_url, expires_at FROM web_url WHERE short_url = $1", shortURL).Scan(&originalURL, &expireDate)
+	if err != nil {
+		return false, "no rows found"
 	}
-
-	defer rows.Close()
-
-	for rows.Next() {
-		originalURL := ""
-		err := rows.Scan(&originalURL)
-
-		if err != nil {
-			return false, "", err
-		}
-		return true, originalURL, nil
-	}
-
-	return false, "", nil
-
+	return true, originalURL
 }

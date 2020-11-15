@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -18,13 +17,12 @@ func GetOriginalURL(w http.ResponseWriter, r *http.Request) {
 
 	// Get ID from base62 string
 	// id := generatemd5.GenerateShortURL(vars["encoded_url"])
-	exists, originalURL, err := query.FetchOriginalURL(shortURL)
+	exists, originalURL := query.FetchOriginalURL(shortURL)
 
 	// Handle response details
-	if err != nil {
-		fmt.Println(err)
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(err.Error()))
+	if !exists {
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("Short link not found"))
 		return
 	}
 

@@ -7,6 +7,8 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
+
+	// Better Postgres support
 	_ "github.com/lib/pq"
 )
 
@@ -39,7 +41,7 @@ func InitDB() (*sql.DB, error) {
 		original_url varchar not null,
 		short_url varchar PRIMARY KEY not null,
 		created_at time not null,
-		expires_at time,
+		expires_at timestamp,
 		has_expired bool default false);`)
 
 	if err != nil {
