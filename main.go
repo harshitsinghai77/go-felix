@@ -27,7 +27,7 @@ func main() {
 
 	PORT := os.Getenv("PORT")
 
-	fmt.Println(PORT)
+	fmt.Println("Listening to PORT ", PORT)
 	db, err := database.InitDB()
 	if err != nil {
 		panic(err)
@@ -45,6 +45,9 @@ func main() {
 	r.HandleFunc("/hello", HelloInit).Methods("GET")
 	r.HandleFunc("/short", controller.GenerateShortURL).Methods("POST")
 	r.HandleFunc("/short/{shortUrl}", controller.GetOriginalURL).Methods("GET")
+
+	r.HandleFunc("/img_url", controller.InsertImageURL).Methods("POST")
+	r.HandleFunc("/img_url", controller.GetStyleTransferImages).Methods("GET")
 
 	corsHandler := cors.AllowAll().Handler(r)
 
