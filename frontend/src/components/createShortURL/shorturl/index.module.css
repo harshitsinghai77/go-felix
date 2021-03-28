@@ -1,0 +1,85 @@
+.title {
+  letter-spacing: -0.04em;
+  font-size: 2.25rem;
+  margin-bottom: 3rem;
+  margin-top: 2rem;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.app_magin {
+  margin-top: 3.5em;
+}
+
+.text {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.generatedLinkText {
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+
+.cardstyle {
+  text-align: left;
+  width: 60%;
+  margin: auto !important;
+  background-color: #fafafa !important;
+}
+
+@media (max-width: 700px) and (min-width: 600px) {
+  .cardstyle {
+    width: 80%;
+  }
+}
+
+@media (max-width: 600px) {
+  .cardstyle {
+    width: 100%;
+  }
+}
+
+.inputtext {
+  width: 60%;
+  margin-bottom: 1rem;
+}
+
+.hyperlink {
+  color: #0070f3;
+  text-decoration: none;
+}
+
+.hyperlink:hover {
+  text-decoration: underline;
+}
+
+.marginBottom {
+  margin-bottom: 1rem;
+}
+
+.button5 {
+  display: inline-block;
+  padding: 0.46em 1.6em;
+  border: 0.1em solid #000000;
+  margin: 0 0.2em 0.2em 0;
+  border-radius: 0.12em;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  color: #000000;
+  text-shadow: 0 0.04em 0.04em rgba(0, 0, 0, 0.35);
+  text-align: center;
+  transition: all 0.15s;
+  background-color: #fafafa;
+  font-size: 1.2em;
+}
+.button5:hover {
+  text-shadow: 0 0 2em rgba(255, 255, 255, 1);
+  color: #ffffff;
+  border-color: #ffffff;
+  background-color: #42cc8c;
+  cursor: pointer;
+}
