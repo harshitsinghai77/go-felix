@@ -29,6 +29,7 @@ func InitDB() (*sql.DB, error) {
 	var err error
 
 	databaseURI := os.Getenv("DATABASE_URL")
+	fmt.Println("databaseURI", databaseURI)
 
 	DB, DBerr = sql.Open("postgres", databaseURI)
 	if err != nil {
