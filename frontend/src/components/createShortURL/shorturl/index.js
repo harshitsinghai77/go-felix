@@ -1,61 +1,47 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Card, Input, Select, Divider } from "antd";
+import { Card, Input, Divider, Button, Spin } from "antd";
 import ModalError from "./modal";
 import styles from "./index.module.css";
 import axiosInstance from "../../../axiosInstance";
 
-// /button/style/index.less
+import "antd/lib/spin/style/css";
 import "antd/lib/card/style/css";
 import "antd/lib/input/style/css";
 import "antd/lib/select/style/css";
 import "antd/lib/divider/style/css";
 import "antd/lib/modal/style/css";
 
-const { Option } = Select;
-
 function App() {
+  const [loader, setLoader] = useState(false);
   const [originalURL, setOriginalURL] = useState("");
-  const [expiryDateType, setExpiryDateType] = useState("none");
-  const [expiresAfter, setExpiresAfter] = useState(null);
   const [shortURL, setShortURL] = useState("");
   const [alreadyExists, setAlreadyExists] = useState(false);
 
-  const onExpireChange = (e) => {
-    const onlyNumb = e.target.value.replace(/\D/, "");
-    setExpiresAfter(onlyNumb);
-  };
-
   const onSubmit = () => {
+    setLoader(true);
     if (originalURL) {
       const postBody = {
         original_url: originalURL,
-        expiry: expiryDateType !== "none",
-        expires_after: expiresAfter,
-        expiry_date_type: expiryDateType,
       };
 
-      if (postBody.expiry && !postBody.expires_after) {
-        ModalError(
-          "'Expire after' cannot be blank",
-          "Either set expire after to None or enter value"
-        );
-        return;
-      }
       axiosInstance
         .post("/short", postBody)
         .then((res) => {
           const { shortUrl, alreadyExists } = res.data;
           setAlreadyExists(alreadyExists);
           setShortURL(shortUrl);
+          setLoader(false);
         })
         .catch((err) => {
           ModalError(
             "It looks like our server has trouble processing your request. Hold on while we fix the issue."
           );
+          setLoader(false);
         });
     } else {
       ModalError("URL Cannot be empty", "Please enter a valid url.");
+      setLoader(false);
     }
   };
 
@@ -78,33 +64,16 @@ function App() {
             setOriginalURL(e.target.value);
           }}
         />
-        <p className={styles.text}>Enter Long URL</p>
-        <Input
-          addonBefore="Expire after"
-          addonAfter={
-            <Select
-              defaultValue="none"
-              onChange={(el) => setExpiryDateType(el)}
-              className="select-after"
-            >
-              <Option value="none">None</Option>
-              <Option value="min">minute</Option>
-              <Option value="hour">hour</Option>
-              <Option value="day">day</Option>
-            </Select>
-          }
-          value={expiresAfter}
-          onChange={onExpireChange}
-          disabled={expiryDateType === "none"}
-          className={styles.inputtext}
-        />
-
         <p className={styles.marginBottom}></p>
 
-        <button className={styles.button5} onClick={onSubmit}>
+        <Button onClick={onSubmit} disabled={!originalURL}>
           Generate Short Link
-        </button>
-
+        </Button>
+        {loader && (
+          <div className={styles.spinner}>
+            <Spin size="large" />
+          </div>
+        )}
         {shortURL && (
           <>
             <Divider />
@@ -113,7 +82,7 @@ function App() {
               &nbsp;
               <Link to={`/${shortURL}`}>
                 <span className={styles.hyperlink}>
-                  felix-2.vercel.app/{shortURL}
+                  {process.env.REACT_APP_SHORTNER_LINK}/{shortURL}
                 </span>
               </Link>
             </p>

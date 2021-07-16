@@ -7,10 +7,7 @@ const NotFound = ({ serverError }) => (
       <div className="denied__wrapper">
         <h1>You have been ejected!</h1>
         {serverError ? (
-          <h3>
-            Well, this is embarrassing! It looks like our server is sleeping at
-            the moment. Behold while our engineers wake him
-          </h3>
+          <h3>You're lost</h3>
         ) : (
           <h3>
             LOST IN <span>SPACE</span> Felix? Hmm, looks like the short url

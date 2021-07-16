@@ -22,6 +22,11 @@
   font-weight: 500;
 }
 
+.spinner {
+  margin-top: 20px;
+  text-align: center;
+}
+
 .cardstyle {
   text-align: left;
   width: 60%;
