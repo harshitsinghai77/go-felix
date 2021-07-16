@@ -21,16 +21,17 @@ function App() {
   const [alreadyExists, setAlreadyExists] = useState(false);
 
   const onSubmit = () => {
-    setLoader(true);
     if (originalURL) {
       if (!isValidHttpUrl(originalURL)) {
         ModalError("Invalid URL", "Please enter a valid url.");
+        return;
       }
 
       const postBody = {
         original_url: originalURL,
       };
 
+      setLoader(true);
       axiosInstance
         .post("/short", postBody)
         .then((res) => {
@@ -47,7 +48,6 @@ function App() {
         });
     } else {
       ModalError("URL Cannot be empty", "Please enter a valid url.");
-      setLoader(false);
     }
   };
 
@@ -60,7 +60,7 @@ function App() {
     <div className={styles.app_magin}>
       <Card className={styles.cardstyle} bodyStyle={{ padding: "2em" }}>
         <h1 className={styles.title}>Weberr</h1>
-        <p className={styles.text}>Enter URL</p>
+        <p className={styles.text}>Enter Long URL</p>
         <Input
           allowClear
           addonBefore="Enter URL"
