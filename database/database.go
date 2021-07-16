@@ -51,18 +51,6 @@ func InitDB() (*sql.DB, error) {
 
 	_, err = stmt.Exec()
 
-	stmt, err = DB.Prepare(`CREATE TABLE IF NOT EXISTS style_transfer_img_url (
-		id SERIAL,
-		img_url varchar not null,
-		created_at time not null);`)
-
-	if err != nil {
-		log.Println(err)
-		return nil, err
-	}
-
-	_, err = stmt.Exec()
-
 	if err != nil {
 		log.Println(err)
 		return nil, err

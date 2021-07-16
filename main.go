@@ -14,11 +14,6 @@ import (
 	"github.com/rs/cors"
 )
 
-// HelloInit makes sure the server is connected to the client
-func HelloInit(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Hello Go!!"))
-}
-
 func main() {
 
 	if err := godotenv.Load(); err != nil {
@@ -42,12 +37,8 @@ func main() {
 
 	r := mux.NewRouter()
 
-	r.HandleFunc("/hello", HelloInit).Methods("GET")
 	r.HandleFunc("/short", controller.GenerateShortURL).Methods("POST")
 	r.HandleFunc("/short/{shortUrl}", controller.GetOriginalURL).Methods("GET")
-
-	r.HandleFunc("/img_url", controller.InsertImageURL).Methods("POST")
-	r.HandleFunc("/img_url", controller.GetStyleTransferImages).Methods("GET")
 
 	corsHandler := cors.AllowAll().Handler(r)
 

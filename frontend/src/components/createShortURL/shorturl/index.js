@@ -16,7 +16,7 @@ const { Option } = Select;
 
 function App() {
   const [originalURL, setOriginalURL] = useState("");
-  const [expiryDateType, setExpiryDateType] = useState(null);
+  const [expiryDateType, setExpiryDateType] = useState("none");
   const [expiresAfter, setExpiresAfter] = useState(null);
   const [shortURL, setShortURL] = useState("");
   const [alreadyExists, setAlreadyExists] = useState(false);
@@ -113,7 +113,7 @@ function App() {
               &nbsp;
               <Link to={`/${shortURL}`}>
                 <span className={styles.hyperlink}>
-                  localhost:3000/{shortURL}
+                  felix-2.vercel.app/{shortURL}
                 </span>
               </Link>
             </p>

@@ -20,9 +20,3 @@ type GenerateRequest struct {
 	ExpiryDateType string `json:"expiry_date_type"`
 	Expiry         bool   `json:"expiry"`
 }
-
-// ImageURL defines the structure of the request
-type ImageURL struct {
-	FirebaseURL string    `json:"firebase_url" db:"img_url"`
-	CreatedAt   time.Time `json:"createdAt" db:"created_at"`
-}
