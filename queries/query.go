@@ -11,7 +11,7 @@ import (
 // InsertURL into the database
 func InsertURL(url *models.Record) (int, error) {
 	var id int
-	query := "INSERT INTO web_url(original_url, short_url, created_at, expires_at, has_expired) VALUES ($1, $2, $3, $4, $5) RETURNING id"
+	query := "INSERT INTO felix_url_shortner(original_url, short_url, created_at, expires_at, has_expired) VALUES ($1, $2, $3, $4, $5) RETURNING id"
 	insertError := db.DB.QueryRow(query, url.OriginalURL, url.ShortURL, url.CreatedAt, url.ExpiresAt, url.HasExpired).Scan(&id)
 	return id, insertError
 }
@@ -21,7 +21,7 @@ func FetchOriginalURL(shortURL string) (bool, string) {
 	var originalURL string
 	var expireDate time.Time
 
-	err := db.DB.QueryRow("SELECT original_url, expires_at FROM web_url WHERE short_url = $1", shortURL).Scan(&originalURL, &expireDate)
+	err := db.DB.QueryRow("SELECT original_url, expires_at FROM felix_url_shortner WHERE short_url = $1", shortURL).Scan(&originalURL, &expireDate)
 	if err != nil {
 		return false, "no rows found"
 	}
@@ -42,7 +42,7 @@ func FetchAlreadyExists(shortURL string) (bool, string) {
 	var originalURL string
 	var expireDate time.Time
 
-	err := db.DB.QueryRow("SELECT original_url, expires_at FROM web_url WHERE short_url = $1", shortURL).Scan(&originalURL, &expireDate)
+	err := db.DB.QueryRow("SELECT original_url, expires_at FROM felix_url_shortner WHERE short_url = $1", shortURL).Scan(&originalURL, &expireDate)
 	if err != nil {
 		return false, "no rows found"
 	}

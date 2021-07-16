@@ -18,7 +18,7 @@ var DB *sql.DB
 // DBerr is the error of the database
 var DBerr error
 
-// InitDB initialized the database and creates a WEB_URL table
+// InitDB initialized the database and creates a felix_url_shortner table
 func InitDB() (*sql.DB, error) {
 
 	if err := godotenv.Load(); err != nil {
@@ -36,7 +36,7 @@ func InitDB() (*sql.DB, error) {
 		os.Exit(1)
 	}
 
-	stmt, err := DB.Prepare(`CREATE TABLE IF NOT EXISTS web_url(
+	stmt, err := DB.Prepare(`CREATE TABLE IF NOT EXISTS felix_url_shortner(
 		id SERIAL,
 		original_url varchar not null,
 		short_url varchar PRIMARY KEY not null,
@@ -56,8 +56,8 @@ func InitDB() (*sql.DB, error) {
 		return nil, err
 	}
 
-	DB.Exec("create unique index shortUrl_original_index on web_url(original_url);")
-	DB.Exec("create unique index shortUrl_short_index on web_url(short_url);")
+	DB.Exec("create unique index shortUrl_original_index on felix_url_shortner(original_url);")
+	DB.Exec("create unique index shortUrl_short_index on felix_url_shortner(short_url);")
 
 	return DB, nil
 
