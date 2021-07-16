@@ -1,2 +1,3 @@
 frontend/src/components/notfound/notfound.css linguist-vendored
 frontend/src/components/createShortURL/shorturl/index.module.css linguist-vendored
+frontend/purified.css linguist-vendored
