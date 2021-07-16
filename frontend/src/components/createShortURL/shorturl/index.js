@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Card, Input, Select, Divider } from "antd";
 import ModalError from "./modal";
@@ -16,22 +16,10 @@ const { Option } = Select;
 
 function App() {
   const [originalURL, setOriginalURL] = useState("");
-  const [expiryDateType, setExpiryDateType] = useState("none");
+  const [expiryDateType, setExpiryDateType] = useState(null);
   const [expiresAfter, setExpiresAfter] = useState(null);
   const [shortURL, setShortURL] = useState("");
   const [alreadyExists, setAlreadyExists] = useState(false);
-
-  useEffect(() => {
-    axiosInstance
-      .get("/hello")
-      .then()
-      .catch((err) => {
-        ModalError(
-          "Ohh Snap!",
-          "It looks like our server is sleeping. Hold on, while our engineers are working on it."
-        );
-      });
-  }, []);
 
   const onExpireChange = (e) => {
     const onlyNumb = e.target.value.replace(/\D/, "");
@@ -54,7 +42,6 @@ function App() {
         );
         return;
       }
-      console.log(postBody);
       axiosInstance
         .post("/short", postBody)
         .then((res) => {
@@ -64,15 +51,11 @@ function App() {
         })
         .catch((err) => {
           ModalError(
-            "Server mood swings!! AGAIN",
-            "It looks like our server has trouble processing your request. Hold on while we plead him to work"
+            "It looks like our server has trouble processing your request. Hold on while we fix the issue."
           );
         });
     } else {
-      ModalError(
-        "URL Cannot be empty",
-        "Please enter a valid url to generate a shortened url"
-      );
+      ModalError("URL Cannot be empty", "Please enter a valid url.");
     }
   };
 
@@ -130,7 +113,7 @@ function App() {
               &nbsp;
               <Link to={`/${shortURL}`}>
                 <span className={styles.hyperlink}>
-                  felix-2.vercel.app/{shortURL}
+                  localhost:3000/{shortURL}
                 </span>
               </Link>
             </p>
