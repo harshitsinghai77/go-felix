@@ -6,7 +6,6 @@ import NoLinkFound from "../notfound";
 function Navigate() {
   let { url } = useParams();
   const [link, setLink] = useState(false);
-  const [serverError, setServerError] = useState(false);
 
   useEffect(() => {
     axiosInstance
@@ -21,11 +20,10 @@ function Navigate() {
       })
       .catch((err) => {
         setLink(true);
-        setServerError(true);
       });
   }, [url]);
 
-  return link && <NoLinkFound serverError={serverError} />;
+  return link && <NoLinkFound />;
 }
 
 export default Navigate;

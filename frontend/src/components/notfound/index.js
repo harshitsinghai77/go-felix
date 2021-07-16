@@ -1,19 +1,15 @@
 import "./notfound.css";
 import { Link } from "react-router-dom";
 
-const NotFound = ({ serverError }) => (
+const NotFound = () => (
   <div className="custom_wrapper">
     <div className="permission_denied">
       <div className="denied__wrapper">
         <h1>You have been ejected!</h1>
-        {serverError ? (
-          <h3>You're lost</h3>
-        ) : (
-          <h3>
-            LOST IN <span>SPACE</span> Felix? Hmm, looks like the short url
-            doesn't exist.
-          </h3>
-        )}
+        <h3>
+          LOST IN <span>SPACE</span> Weberr? Hmm, looks like the short url
+          doesn't exist.
+        </h3>
 
         <Link to="/">
           <button className="denied__link">Go Home</button>

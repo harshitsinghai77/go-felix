@@ -5,6 +5,8 @@ import ModalError from "./modal";
 import styles from "./index.module.css";
 import axiosInstance from "../../../axiosInstance";
 
+import { isValidHttpUrl } from "../../utils";
+
 import "antd/lib/spin/style/css";
 import "antd/lib/card/style/css";
 import "antd/lib/input/style/css";
@@ -21,6 +23,10 @@ function App() {
   const onSubmit = () => {
     setLoader(true);
     if (originalURL) {
+      if (!isValidHttpUrl(originalURL)) {
+        ModalError("Invalid URL", "Please enter a valid url.");
+      }
+
       const postBody = {
         original_url: originalURL,
       };
@@ -45,24 +51,23 @@ function App() {
     }
   };
 
+  const onURLChange = (e) => {
+    const url = e.target.value;
+    if (url) setOriginalURL(e.target.value);
+  };
+
   return (
     <div className={styles.app_magin}>
       <Card className={styles.cardstyle} bodyStyle={{ padding: "2em" }}>
-        <h1 className={styles.title}>Felix</h1>
-        <p className={styles.text}>Enter Long URL</p>
+        <h1 className={styles.title}>Weberr</h1>
+        <p className={styles.text}>Enter URL</p>
         <Input
           allowClear
           addonBefore="Enter URL"
-          // defaultValue="mysite"
           value={originalURL}
           className={styles.inputtext}
-          onChange={(e) => {
-            if (e.target.value === "") {
-              setAlreadyExists(false);
-              setShortURL("");
-            }
-            setOriginalURL(e.target.value);
-          }}
+          onChange={onURLChange}
+          width="100%"
         />
         <p className={styles.marginBottom}></p>
 
